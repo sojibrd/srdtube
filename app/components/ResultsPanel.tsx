@@ -1,6 +1,6 @@
 "use client";
 
-import ResultsTable, { type Column } from "./ResultsTable";
+import ResultsTable, { type Column, type SortState } from "./ResultsTable";
 import type { VideoRow } from "../lib/youtube";
 
 /**
@@ -16,6 +16,7 @@ export default function ResultsPanel({
   hasMore,
   onLoadMore,
   idleLabel,
+  defaultSort,
 }: {
   columns: Column<VideoRow>[];
   rows: VideoRow[];
@@ -25,6 +26,7 @@ export default function ResultsPanel({
   hasMore: boolean;
   onLoadMore: () => void;
   idleLabel: string;
+  defaultSort?: SortState;
 }) {
   if (status === "error") {
     return (
@@ -55,6 +57,7 @@ export default function ResultsPanel({
         columns={columns}
         rows={rows}
         rowKey={(row) => row.videoId}
+        defaultSort={defaultSort}
         emptyLabel={status === "ready" ? "Nothing matched." : idleLabel}
       />
 

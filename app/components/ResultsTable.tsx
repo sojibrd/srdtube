@@ -20,20 +20,24 @@ export type Column<T> = {
   align?: "start" | "end";
 };
 
-type SortState = { key: string; direction: "asc" | "desc" } | null;
+export type SortState = { key: string; direction: "asc" | "desc" } | null;
 
 export default function ResultsTable<T>({
   columns,
   rows,
   rowKey,
   emptyLabel = "No results yet.",
+  defaultSort = null,
 }: {
   columns: Column<T>[];
   rows: T[];
   rowKey: (row: T) => string;
   emptyLabel?: string;
+  /** The order the table opens in. Clearing a sort returns to it, not to
+   *  the API's order — for search that is what the user asked to see. */
+  defaultSort?: SortState;
 }) {
-  const [sort, setSort] = useState<SortState>(null);
+  const [sort, setSort] = useState<SortState>(defaultSort);
 
   const sorted = useMemo(() => {
     if (!sort) return rows;
@@ -55,13 +59,13 @@ export default function ResultsTable<T>({
     });
   }, [rows, sort, columns]);
 
-  // Third click clears the sort and hands back the order the API gave us —
-  // for a playlist, that original order is itself meaningful.
+  // Third click clears back to `defaultSort` — for a playlist that is the
+  // API's own order, which is itself the data; for search it is engagement.
   const toggle = (key: string) =>
     setSort((current) => {
       if (current?.key !== key) return { key, direction: "asc" };
       if (current.direction === "asc") return { key, direction: "desc" };
-      return null;
+      return defaultSort;
     });
 
   if (rows.length === 0) {

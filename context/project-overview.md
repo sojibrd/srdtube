@@ -55,7 +55,11 @@ metadata আর wiring। বাকি সব `"use client"`, কারণ stati
 4. **যা দেখানো হয় ≠ যা দিয়ে sort হয়।** প্রতিটা কলামে `cell` আর `sortValue`
    আলাদা (`ResultsTable`)। duration সেকেন্ডে, count সংখ্যায়, date
    টাইমস্ট্যাম্পে sort হয়।
-5. **Theme contract** — `context/ui-tokens.md` দেখুন। কম্পোনেন্টে কোনো
+5. **Engagement সবসময় client-side।** YouTube-এর `order=` মানে
+   `relevance` / `viewCount` / `rating` / `date` — **`likeCount` নেই**
+   (400 দেয়)। তাই `likes ÷ views` জাতীয় কোনো অনুপাতে সার্ভার সাজাতে পারে
+   না; Engagement কলাম শুধু যতগুলো লোড হয়েছে ততগুলোর উপর কাজ করে।
+6. **Theme contract** — `context/ui-tokens.md` দেখুন। কম্পোনেন্টে কোনো
    ভিজ্যুয়াল ক্লাস নয়।
 
 ## basePath

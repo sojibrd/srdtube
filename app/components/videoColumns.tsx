@@ -2,9 +2,11 @@
 
 import type { Column } from "./ResultsTable";
 import {
+  engagement,
   formatCount,
   formatDate,
   formatDuration,
+  formatPercent,
   videoUrl,
 } from "../lib/format";
 import type { VideoRow } from "../lib/youtube";
@@ -65,6 +67,18 @@ const countColumn = (
   cell: (row) => formatCount(row[key]),
 });
 
+/**
+ * likes ÷ views. Uncomputable ratios sort below every real one rather than
+ * as 0% — a video with hidden likes is unknown, not disliked.
+ */
+const engagementColumn: Column<VideoRow> = {
+  key: "engagement",
+  label: "Engagement",
+  align: "end",
+  sortValue: (row) => engagement(row.likes, row.views) ?? -1,
+  cell: (row) => formatPercent(engagement(row.likes, row.views)),
+};
+
 export const VIDEO_COLUMNS: Column<VideoRow>[] = [
   title,
   channel,
@@ -72,6 +86,7 @@ export const VIDEO_COLUMNS: Column<VideoRow>[] = [
   published,
   countColumn("views", "Views"),
   countColumn("likes", "Likes"),
+  engagementColumn,
 ];
 
 export const PLAYLIST_COLUMNS: Column<VideoRow>[] = [
@@ -82,4 +97,5 @@ export const PLAYLIST_COLUMNS: Column<VideoRow>[] = [
   countColumn("views", "Views"),
   countColumn("likes", "Likes"),
   countColumn("comments", "Comments"),
+  engagementColumn,
 ];

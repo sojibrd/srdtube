@@ -6,7 +6,14 @@ import ResultsPanel from "./ResultsPanel";
 import { VIDEO_COLUMNS } from "./videoColumns";
 import { useApiKey } from "../lib/useApiKey";
 import { useResults } from "../lib/useResults";
-import { searchVideos } from "../lib/youtube";
+import {
+  SEARCH_ORDERS,
+  searchVideos,
+  type SearchOrder,
+} from "../lib/youtube";
+
+/** Engagement, best first — the reason this tool exists. */
+const DEFAULT_SORT = { key: "engagement", direction: "desc" } as const;
 
 export default function SearchView() {
   const { apiKey, setApiKey, effectiveKey, usingFallback } = useApiKey();
@@ -14,10 +21,17 @@ export default function SearchView() {
   const [query, setQuery] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const [order, setOrder] = useState<SearchOrder>("relevance");
 
   // The submitted values, frozen at submit time. Typing in the form after a
   // search must not change what "Load more" asks for.
-  const submitted = useRef({ query: "", from: "", to: "", key: "" });
+  const submitted = useRef({
+    query: "",
+    from: "",
+    to: "",
+    key: "",
+    order: "relevance" as SearchOrder,
+  });
 
   const fetchPage = useCallback(
     (pageToken?: string) =>
@@ -26,6 +40,7 @@ export default function SearchView() {
         publishedAfter: submitted.current.from || undefined,
         publishedBefore: submitted.current.to || undefined,
         apiKey: submitted.current.key,
+        order: submitted.current.order,
         pageToken,
       }),
     []
@@ -37,7 +52,13 @@ export default function SearchView() {
     event.preventDefault();
     if (!query.trim()) return;
 
-    submitted.current = { query: query.trim(), from, to, key: effectiveKey };
+    submitted.current = {
+      query: query.trim(),
+      from,
+      to,
+      key: effectiveKey,
+      order,
+    };
     void results.load();
   };
 
@@ -80,6 +101,28 @@ export default function SearchView() {
           </div>
 
           <div className="flex flex-col gap-1.5">
+            <label className="t-label" htmlFor="order">
+              YouTube order
+            </label>
+            <select
+              id="order"
+              className="input"
+              value={order}
+              onChange={(event) => setOrder(event.target.value as SearchOrder)}
+            >
+              {SEARCH_ORDERS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <p className="t-caption">
+              Decides which 50 videos YouTube returns — not how the table below
+              is sorted.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
             <label className="t-label" htmlFor="to">
               Uploaded to
             </label>
@@ -115,6 +158,7 @@ export default function SearchView() {
         hasMore={results.hasMore}
         onLoadMore={results.loadMore}
         idleLabel="Search for videos to fill this table."
+        defaultSort={DEFAULT_SORT}
       />
     </div>
   );

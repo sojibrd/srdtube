@@ -67,6 +67,8 @@ srdtube-এ নতুন যোগ হওয়া গ্রুপ তিনট�
 - `--t-input-*` — bg, border (+hover/focus), radius, shadow (+focus), fg,
   placeholder, family, size, padding, `--t-input-picker-filter`
   (ব্রাউজারের ক্যালেন্ডার আইকন কালো আসে; ফিল্টারে readout ইঙ্কে টানা হয়)।
+  `select.input`-এর জন্য `--t-select-arrow` (SVG data URI) — প্ল্যাটফর্মের
+  নিজের তীর চাপা দিয়ে থিমের তীর বসে।
 - `--t-link-*` — `fg`, `fg-hover`।
 - `--t-brand-hover-opacity` — wordmark hover-এ কতটা ম্লান হবে।
 - `--t-table-*` — size, fg, head bg/rule, row rule, row hover, padding;

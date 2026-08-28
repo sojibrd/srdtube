@@ -466,6 +466,17 @@ body {
     box-shadow: var(--t-input-shadow-focus);
   }
 
+  /* A select paints its own arrow in the platform's colours, which are not
+     the theme's. Suppress it and let the theme supply the mark. */
+  select.input {
+    appearance: none;
+    background-image: var(--t-select-arrow);
+    background-repeat: no-repeat;
+    background-position: right var(--t-input-pad-x) center;
+    padding-right: calc(var(--t-input-pad-x) * 2 + 0.6rem);
+    cursor: pointer;
+  }
+
   /* A date input paints its own calendar glyph; the theme says what ink. */
   .input::-webkit-calendar-picker-indicator {
     filter: var(--t-input-picker-filter);

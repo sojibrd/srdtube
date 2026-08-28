@@ -138,12 +138,30 @@ async function fetchVideoDetails(
   return ids.map((id) => byId.get(id)).filter((row): row is VideoRow => !!row);
 }
 
+/**
+ * What YouTube itself sorts the result set by, before we ever see it.
+ *
+ * This is NOT the same as sorting the table: `order` decides WHICH 50 videos
+ * come back out of thousands; the table only reorders the 50 in hand. There
+ * is deliberately no `likeCount` here — the API rejects it (400), which is
+ * why engagement is computed client-side.
+ */
+export type SearchOrder = "relevance" | "viewCount" | "rating" | "date";
+
+export const SEARCH_ORDERS: { value: SearchOrder; label: string }[] = [
+  { value: "relevance", label: "Relevance" },
+  { value: "viewCount", label: "Views" },
+  { value: "rating", label: "Rating" },
+  { value: "date", label: "Upload date" },
+];
+
 export type SearchParams = {
   query: string;
   publishedAfter?: string; // YYYY-MM-DD
   publishedBefore?: string; // YYYY-MM-DD
   apiKey: string;
   pageToken?: string;
+  order?: SearchOrder;
 };
 
 export async function searchVideos({
@@ -152,11 +170,13 @@ export async function searchVideos({
   publishedBefore,
   apiKey,
   pageToken,
+  order,
 }: SearchParams): Promise<Page<VideoRow>> {
   const data = await get<SearchResponse>("search", {
     part: "snippet",
     type: "video",
     q: query,
+    order,
     maxResults: String(PAGE_SIZE),
     key: apiKey,
     pageToken,

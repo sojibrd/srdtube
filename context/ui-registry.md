@@ -35,7 +35,10 @@ type Column<T> = {
 };
 ```
 
-Sort state ভেতরেই থাকে (asc → desc → none)। rows খালি হলে `emptyLabel`।
+Sort state ভেতরেই থাকে: asc → desc → `defaultSort`। `defaultSort` prop টেবিল
+কোন ক্রমে খুলবে তা বলে — Search-এ `{ key: "engagement", direction: "desc" }`,
+Playlist-এ কিছু নয় (playlist-এর নিজের ক্রমটাই তথ্য)। rows খালি হলে
+`emptyLabel`।
 
 ## `videoColumns` — `app/components/videoColumns.tsx`
 
@@ -43,6 +46,10 @@ Sort state ভেতরেই থাকে (asc → desc → none)। rows খ�
 `PLAYLIST_COLUMNS` (playlist — সাথে Comments)। **কোনো কলামের চেহারা
 বদলাতে হলে এখানে, দুই ভিউয়ে নয়।** `countColumn()` helper তিনটে count
 কলামই বানায়।
+
+**`engagement` কলাম** = `likes ÷ views`, শতাংশে। দুই তালিকাতেই আছে।
+হিসাব করা না গেলে (likes লুকানো, বা views শূন্য) `—`, আর sort-এ `-1` —
+"অজানা" আর "০%" এক জিনিস নয়।
 
 ## `ResultsPanel` — `app/components/ResultsPanel.tsx`
 

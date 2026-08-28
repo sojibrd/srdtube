@@ -42,6 +42,32 @@ export function formatCount(value: number | null): string {
   return value === null ? "—" : value.toLocaleString("en-US");
 }
 
+/**
+ * Engagement: likes ÷ views.
+ *
+ * The question it answers is not "how many people saw this" but "of the
+ * people who saw it, how many bothered to say they liked it". 5k likes on 1M
+ * views (0.5%) is a weaker signal than 2k likes on 10k views (20%).
+ *
+ * `null` when it cannot be computed — hidden likes, or no views yet. That is
+ * different from 0%, which means views happened and nobody liked it.
+ */
+export function engagement(
+  likes: number | null,
+  views: number | null
+): number | null {
+  if (likes === null || views === null || views === 0) return null;
+  return likes / views;
+}
+
+/** A ratio as a percentage. Small ratios need the extra digit to differ. */
+export function formatPercent(ratio: number | null): string {
+  if (ratio === null) return "—";
+
+  const percent = ratio * 100;
+  return `${percent < 1 ? percent.toFixed(2) : percent.toFixed(1)}%`;
+}
+
 /** YouTube's `publishedAt` is RFC 3339; show the date, keep the clock out. */
 export function formatDate(iso: string): string {
   const date = new Date(iso);
