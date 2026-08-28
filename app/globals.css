@@ -472,6 +472,22 @@ body {
     cursor: pointer;
   }
 
+  /* --- Brand: the wordmark, which is also the way home ------------------ */
+
+  .brand {
+    text-decoration: none;
+    transition: opacity 120ms var(--t-ease);
+  }
+
+  .brand:hover {
+    opacity: var(--t-brand-hover-opacity);
+  }
+
+  .brand:focus-visible {
+    outline: 2px solid var(--t-accent);
+    outline-offset: 4px;
+  }
+
   /* --- Link: a readout that leads somewhere ---------------------------- */
 
   .t-link {

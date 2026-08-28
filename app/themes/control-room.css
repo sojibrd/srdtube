@@ -203,6 +203,10 @@
   /* The browser's calendar glyph ships black; drag it up to readout ink. */
   --t-input-picker-filter: invert(0.78) sepia(0.24) saturate(0.6);
 
+  /* --- Brand ------------------------------------------------------------ */
+  /* Engraved chassis lettering does not light up when touched; it dims. */
+  --t-brand-hover-opacity: 0.72;
+
   /* --- Links ------------------------------------------------------------ */
   --t-link-fg: var(--readout);
   --t-link-fg-hover: var(--amber);

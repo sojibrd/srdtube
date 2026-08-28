@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Barlow_Semi_Condensed, JetBrains_Mono } from "next/font/google";
+import Link from "next/link";
 import NavTabs from "./components/NavTabs";
 import "./globals.css";
 
@@ -41,10 +42,12 @@ export default function RootLayout({
       <body className="surface-app min-h-dvh">
         <header className="seam-b">
           <div className="mx-auto max-w-6xl px-6 py-5 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex flex-col gap-0.5">
+            {/* The wordmark is the way home, as it is on every site. Home is
+                Video Search — there is no separate landing page. */}
+            <Link href="/" className="brand flex flex-col gap-0.5">
               <h1 className="t-title text-xl">srdtube</h1>
               <p className="t-label">YouTube search &amp; playlist sorting</p>
-            </div>
+            </Link>
             <NavTabs />
           </div>
         </header>

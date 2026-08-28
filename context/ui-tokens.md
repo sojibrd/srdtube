@@ -44,6 +44,7 @@ scoped, আর সব মান `--t-table-*` থেকে পড়ে।
 | Chip | `chip` + `chip--accent` `chip--alert` `chip--ok` |
 | Callout | `callout` + `callout--accent` `callout--alert` |
 | Nav | `tab` `row` |
+| **Brand** | **`brand`** — হেডারের wordmark, যেটা হোম লিংকও |
 | **Input** | **`input`** — recessed well যাতে ইউজার মান বসায় |
 | **Table** | **`data-table`** (scoped raw elements) + **`sort-head`** |
 
@@ -67,5 +68,6 @@ srdtube-এ নতুন যোগ হওয়া গ্রুপ তিনট�
   placeholder, family, size, padding, `--t-input-picker-filter`
   (ব্রাউজারের ক্যালেন্ডার আইকন কালো আসে; ফিল্টারে readout ইঙ্কে টানা হয়)।
 - `--t-link-*` — `fg`, `fg-hover`।
+- `--t-brand-hover-opacity` — wordmark hover-এ কতটা ম্লান হবে।
 - `--t-table-*` — size, fg, head bg/rule, row rule, row hover, padding;
   সাথে `--t-sort-none-glyph` / `-asc-` / `-desc-` (তীরের আকারও থিমের কথা)।
